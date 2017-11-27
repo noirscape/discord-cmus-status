@@ -36,3 +36,5 @@ RPC.send_rich_presence(activity)
 time.sleep(60)
  #Presence is set for 60 seconds, afterwards the script will end and the presence will disappear from your profile.
  ```
+
+You can see a more practical use where I use this to report to Discord the song I have playing in Winamp [here](https://github.com/DerpyChap/Winamp-Discord-RPC).

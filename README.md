@@ -2,7 +2,7 @@
 Originally created by [GiovanniMCMXCIX](https://github.com/GiovanniMCMXCIX/PyDiscordRPC), this script has been modified so that you can easily import it into your own Python projects (It could definately be improved for sure). For more information on Discord's Rich Presence feature, look here: https://discordapp.com/developers/docs/rich-presence/best-practices
 
 # How To Use
-Here's a quick example script on how to use this Library:
+Here's a quick example script on how to use this module:
 
 ```Python
 import rpc

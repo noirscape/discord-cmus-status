@@ -6,4 +6,4 @@ rpc.py is from [DerpyChap](https://github.com/DerpyChap/PyDiscordRPC)
 requires `pycmus` (`pip install pycmus`)
 
 ## screenshots
-![discord screenshot](https://luke.is-not.cool/2dq86.png)
+![discord screenshot](https://luke.feen.us/zzleoy.png)

@@ -34,7 +34,9 @@ def parse(cmus_dict):
 client_id = "384747170403844117"
 rpc = rpc.DiscordRPC(client_id)
 rpc.start()
+print("RPC init finished")
 cmus = remote.PyCmus()
+print("cmus connection opened")
 
 prev = cmus.get_status_dict()
 rpc.send_rich_presence(parse(prev))

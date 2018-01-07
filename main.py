@@ -3,10 +3,22 @@ import rpc
 import time
 from pycmus import remote
 
+defaultstatus = {
+        "state":"stopped",
+        "details":"Not playing",
+        "assets": {
+            "large_text": "c* music player",
+            "large_image":"img_large"
+        },
+        "party": {
+            "size":[1,1]
+        }    
+    }
+
 def parse(cmus_dict):
     status = {
         "state":cmus_dict["status"],
-        "details":"No Song Selected",
+        "details":"Not playing",
         "assets": {
             "large_text": "c* music player",
             "large_image":"img_large"
@@ -32,5 +44,8 @@ while True:
     if status != prev:
         rpc.send_rich_presence(parse(status))
         prev = status
+    if status == prev:
+        if status["status"] == "paused" or status["status"] == "stopped":
+            rpc.send_rich_presence(defaultstatus)
     time.sleep(15)
         

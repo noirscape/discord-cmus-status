@@ -1,6 +1,7 @@
 #!/bin/python
 import rpc
 import time
+import re
 from pycmus import remote
 
 defaultstatus = {
@@ -17,20 +18,24 @@ def parse(cmus_dict):
         "state":cmus_dict["status"],
         "details":"Not playing",
         "assets": {
-            "large_text": "c* music player",
             "large_image":"main_logo"
         }
     }
     if cmus_dict["tag"] != {}:
         status["state"] = "{0}".format(cmus_dict["tag"]["title"])
         status.pop("details")
-        status["assets"]["large_text"] = "{0}".format(cmus_dict["tag"]["album"])
-        status["assets"]["small_image"] = "artist_logo"
-        status["assets"]["small_text"] = "{0}".format(cmus_dict["tag"]["artist"])
+        if cmus_dict["tag"]["album"]:
+            status["assets"]["large_text"] = "{0}".format(cmus_dict["tag"]["album"])
+        if cmus_dict["tag"]["artist"]:
+            status["assets"]["small_image"] = "artist_logo"
+            status["assets"]["small_text"] = "{0}".format(cmus_dict["tag"]["artist"])
         status["timestamps"] = { 
             "start": int(time.time()) - int(cmus_dict["position"]),
             "end": int(time.time()) - int(cmus_dict["position"]) + int(cmus_dict["duration"])
         }
+    elif cmus_dict["status"] == "playing" or cmus_dict["status"] == "paused":
+        filename = re.match(".*\/([^\.]+)\..", cmus_dict["file"]).group(1)  # regex by @LiquidFenrir :)
+        status["details"] = "{0}".format(filename)
     return status
 
 client_id = "409516139404853248"

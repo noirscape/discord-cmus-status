@@ -4,21 +4,13 @@ import time
 import re
 from pycmus import remote
 
-defaultstatus = {
-        "state":"stopped",
-        "details":"Not playing",
-        "assets": {
-            "large_text": "c* music player",
-            "large_image":"main_logo"
-        }
-    }
 
 def parse(cmus_dict):
     status = {
-        "state":cmus_dict["status"],
-        "details":"Not playing",
+        "state": cmus_dict["status"],
+        "details": "Not playing",
         "assets": {
-            "large_image":"main_logo"
+            "large_image": "main_logo"
         }
     }
     if cmus_dict["tag"] != {}:
@@ -29,7 +21,7 @@ def parse(cmus_dict):
         if cmus_dict["tag"]["artist"]:
             status["assets"]["small_image"] = "artist_logo"
             status["assets"]["small_text"] = "{0}".format(cmus_dict["tag"]["artist"])
-        status["timestamps"] = { 
+        status["timestamps"] = {
             "start": int(time.time()) - int(cmus_dict["position"]),
             "end": int(time.time()) - int(cmus_dict["position"]) + int(cmus_dict["duration"])
         }
@@ -38,6 +30,7 @@ def parse(cmus_dict):
         status["details"] = "{0}".format(filename)
     return status
 
+
 client_id = "409516139404853248"
 rpc = rpc.DiscordRPC(client_id)
 rpc.start()
@@ -45,16 +38,7 @@ print("RPC init finished")
 cmus = remote.PyCmus()
 print("cmus connection opened")
 
-prev = cmus.get_status_dict()
-rpc.send_rich_presence(parse(prev))
-
 while True:
     status = cmus.get_status_dict()
-    if status != prev:
-        rpc.send_rich_presence(parse(status))
-        prev = status
-    if status == prev:
-        if status["status"] == "paused" or status["status"] == "stopped":
-            rpc.send_rich_presence(defaultstatus)
+    rpc.send_rich_presence(parse(status))
     time.sleep(15)
-        

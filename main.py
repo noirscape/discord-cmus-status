@@ -8,11 +8,8 @@ defaultstatus = {
         "details":"Not playing",
         "assets": {
             "large_text": "c* music player",
-            "large_image":"img_large"
-        },
-        "party": {
-            "size":[1,1]
-        }    
+            "large_image":"main_logo"
+        }
     }
 
 def parse(cmus_dict):
@@ -21,17 +18,22 @@ def parse(cmus_dict):
         "details":"Not playing",
         "assets": {
             "large_text": "c* music player",
-            "large_image":"img_large"
-        },
-        "party": {
-            "size":[1,1]
-        }    
+            "large_image":"main_logo"
+        }
     }
     if cmus_dict["tag"] != {}:
-        status["details"] = "{0} - {1}".format(cmus_dict["tag"]["artist"],cmus_dict["tag"]["title"])
+        status["state"] = "{0}".format(cmus_dict["tag"]["title"])
+        status.pop("details")
+        status["assets"]["large_text"] = "{0}".format(cmus_dict["tag"]["album"])
+        status["assets"]["small_image"] = "artist_logo"
+        status["assets"]["small_text"] = "{0}".format(cmus_dict["tag"]["artist"])
+        status["timestamps"] = { 
+            "start": int(time.time()) - int(cmus_dict["position"]),
+            "end": int(time.time()) - int(cmus_dict["position"]) + int(cmus_dict["duration"])
+        }
     return status
 
-client_id = "384747170403844117"
+client_id = "409516139404853248"
 rpc = rpc.DiscordRPC(client_id)
 rpc.start()
 print("RPC init finished")
